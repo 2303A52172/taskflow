@@ -2,6 +2,9 @@
 
 A full-stack project management web app built with Node.js, Express, SQLite, and Vanilla JS.
 
+## 🌐 Live Demo
+**https://taskflow-production-448f.up.railway.app**
+
 ## Features
 - **Authentication** — JWT-based signup/login with roles (admin, manager, member)
 - **Projects** — Create, manage, archive projects with team members
@@ -12,7 +15,7 @@ A full-stack project management web app built with Node.js, Express, SQLite, and
 
 ## Tech Stack
 - **Backend**: Node.js + Express
-- **Database**: SQLite via `better-sqlite3` (zero-config, file-based)
+- **Database**: SQLite via `sql.js` (zero-config, no compilation needed)
 - **Auth**: JWT tokens (7-day expiry)
 - **Frontend**: Vanilla JS + custom CSS (no frameworks)
 
@@ -22,24 +25,17 @@ A full-stack project management web app built with Node.js, Express, SQLite, and
 # Install dependencies
 npm install
 
-# Start development server
-npm run dev
+# Copy env file
+copy .env.example .env
 
-# Or production
+# Start server
 npm start
 ```
 
 App runs on http://localhost:3000
 
-## Deploy on Railway
-
-1. Push this repo to GitHub
-2. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub
-3. Select your repo
-4. Add environment variable: `JWT_SECRET=your_random_secret_here`
-5. Railway auto-detects Node.js and deploys!
-
-The SQLite DB is stored as `taskflow.db` in the app directory. For persistent storage on Railway, you can add a volume mount at `/app/taskflow.db`.
+## Deployment
+Deployed on **Railway** — https://taskflow-production-448f.up.railway.app
 
 ## API Endpoints
 
@@ -74,4 +70,3 @@ The SQLite DB is stored as `taskflow.db` in the app directory. For persistent st
 |---|---|---|
 | `PORT` | Server port | 3000 |
 | `JWT_SECRET` | JWT signing secret | fallback_secret |
-| `DB_PATH` | SQLite DB file path | ./taskflow.db |
