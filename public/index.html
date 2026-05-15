@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TaskFlow — Project Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <div id="app">
+    <!-- Auth Screen -->
+    <div id="auth-screen" class="screen active">
+      <div class="auth-bg">
+        <div class="grid-overlay"></div>
+        <div class="auth-card">
+          <div class="brand">
+            <span class="brand-icon">⬡</span>
+            <h1>TaskFlow</h1>
+            <p>Ship together. Track everything.</p>
+          </div>
+          <div class="auth-tabs">
+            <button class="tab-btn active" data-tab="login">Login</button>
+            <button class="tab-btn" data-tab="signup">Sign Up</button>
+          </div>
+          <form id="login-form" class="auth-form active">
+            <div class="field">
+              <label>Email</label>
+              <input type="email" id="login-email" placeholder="you@company.com" required/>
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input type="password" id="login-password" placeholder="••••••••" required/>
+            </div>
+            <button type="submit" class="btn-primary">Login →</button>
+          </form>
+          <form id="signup-form" class="auth-form">
+            <div class="field">
+              <label>Full Name</label>
+              <input type="text" id="signup-name" placeholder="Your Name" required/>
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" id="signup-email" placeholder="you@company.com" required/>
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input type="password" id="signup-password" placeholder="Min 6 characters" required/>
+            </div>
+            <div class="field">
+              <label>Role</label>
+              <select id="signup-role">
+                <option value="member">Member</option>
+                <option value="manager">Manager</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary">Create Account →</button>
+          </form>
+          <div id="auth-error" class="error-msg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Shell -->
+    <div id="app-shell" class="screen">
+      <!-- Sidebar -->
+      <nav id="sidebar">
+        <div class="sidebar-brand">
+          <span class="brand-icon">⬡</span>
+          <span>TaskFlow</span>
+        </div>
+        <div class="nav-links">
+          <a class="nav-link active" data-view="dashboard">
+            <span class="nav-icon">◈</span> Dashboard
+          </a>
+          <a class="nav-link" data-view="projects">
+            <span class="nav-icon">◉</span> Projects
+          </a>
+          <a class="nav-link" data-view="tasks">
+            <span class="nav-icon">◎</span> My Tasks
+          </a>
+        </div>
+        <div class="sidebar-footer">
+          <div class="user-badge" id="user-badge">
+            <span class="user-avatar" id="user-avatar">U</span>
+            <div>
+              <div id="user-name-sidebar" class="user-name">User</div>
+              <div id="user-role-sidebar" class="user-role">member</div>
+            </div>
+          </div>
+          <button id="logout-btn" class="logout-btn">↩ Logout</button>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main id="main-content">
+        <!-- Dashboard View -->
+        <div id="view-dashboard" class="view active">
+          <div class="view-header">
+            <h2>Dashboard</h2>
+            <span class="view-subtitle">Your workspace overview</span>
+          </div>
+          <div class="stats-grid" id="stats-grid"></div>
+          <div class="dashboard-cols">
+            <div>
+              <h3 class="section-title">Recent Tasks</h3>
+              <div id="recent-tasks-list" class="task-list-compact"></div>
+            </div>
+            <div>
+              <h3 class="section-title">⚠ Overdue</h3>
+              <div id="overdue-tasks-list" class="task-list-compact"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects View -->
+        <div id="view-projects" class="view">
+          <div class="view-header">
+            <h2>Projects</h2>
+            <button class="btn-primary" id="new-project-btn">+ New Project</button>
+          </div>
+          <div id="projects-grid" class="projects-grid"></div>
+        </div>
+
+        <!-- Tasks View -->
+        <div id="view-tasks" class="view">
+          <div class="view-header">
+            <h2>My Tasks</h2>
+            <button class="btn-primary" id="new-task-btn">+ New Task</button>
+          </div>
+          <div class="task-filters">
+            <select id="task-filter-status">
+              <option value="">All Status</option>
+              <option value="todo">To Do</option>
+              <option value="in_progress">In Progress</option>
+              <option value="review">Review</option>
+              <option value="done">Done</option>
+            </select>
+            <select id="task-filter-priority">
+              <option value="">All Priority</option>
+              <option value="urgent">Urgent</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div id="tasks-board" class="tasks-board"></div>
+        </div>
+
+        <!-- Project Detail View -->
+        <div id="view-project-detail" class="view">
+          <div class="view-header">
+            <button class="btn-back" id="back-to-projects">← Back</button>
+            <h2 id="project-detail-title">Project</h2>
+            <button class="btn-primary" id="add-member-btn">+ Add Member</button>
+          </div>
+          <div id="project-detail-content"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div id="modal-box" class="modal-box">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
